@@ -1,0 +1,18 @@
+services:
+    application.sonata.listener.image:
+        class: 'Application\Sonata\ImageBundle\Entity\Listener\ImageListener'
+        tags:
+            - { name: doctrine.event_listener, event: prePersist}
+            - { name: doctrine.event_listener, event: preUpdate}
+            - { name: doctrine.event_listener, event: postRemove}
+        calls:
+            - [ setContainer, [ '@service_container' ] ]
+
+    sonata.admin.image:
+        class: Application\Sonata\ImageBundle\Admin\ImageAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: "Images", group: admin}
+        arguments:
+            - ~
+            - Application\Sonata\ImageBundle\Entity\Image
+            - ~
